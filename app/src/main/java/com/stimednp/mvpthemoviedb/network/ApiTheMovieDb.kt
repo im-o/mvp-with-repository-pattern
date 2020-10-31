@@ -1,7 +1,6 @@
 package com.stimednp.mvpthemoviedb.network
 
-import kotlinx.coroutines.Deferred
-import retrofit2.Response
+import com.stimednp.mvpthemoviedb.data.response.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,8 +11,8 @@ import retrofit2.http.Query
 
 interface ApiTheMovieDb {
     @GET("discover/movie")
-    suspend fun getMovies(
+    suspend fun getMovieAsync(
         @Query("api_key") apiKey: String,
         @Query("language") strLanguage: String
-    ): Deferred<Response<Any>>
+    ): MovieResponse
 }
