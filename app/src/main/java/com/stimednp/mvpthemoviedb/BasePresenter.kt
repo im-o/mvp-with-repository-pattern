@@ -6,5 +6,10 @@ package com.stimednp.mvpthemoviedb
  */
 
 interface BasePresenter {
+
+    /**
+     * Add more general function here if you want
+     */
+
     fun start()
 }

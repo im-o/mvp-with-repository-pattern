@@ -6,5 +6,10 @@ package com.stimednp.mvpthemoviedb
  */
 
 interface BaseView<T> {
+
+    /**
+     * Add more general function here if you want
+     */
+
     fun setPresenter(presenter: T)
 }
