@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stimednp.mvpthemoviedb.BuildConfig
-import com.stimednp.mvpthemoviedb.R
 import com.stimednp.mvpthemoviedb.data.model.Movie
+import com.stimednp.mvpthemoviedb.databinding.ActivityMainBinding
 import com.stimednp.mvpthemoviedb.network.ApiConfig
 import com.stimednp.mvpthemoviedb.network.ApiTheMovieDb
 import com.stimednp.mvpthemoviedb.repository.MovieRemoteDataSource
@@ -13,9 +13,10 @@ import com.stimednp.mvpthemoviedb.repository.MovieRepository
 import com.stimednp.mvpthemoviedb.util.gone
 import com.stimednp.mvpthemoviedb.util.loge
 import com.stimednp.mvpthemoviedb.util.visible
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MovieContract.View {
+    private lateinit var binding: ActivityMainBinding
+
     private lateinit var apiTheMovieDb: ApiTheMovieDb
     private lateinit var movieRemoteDataSource: MovieRemoteDataSource
     private lateinit var repository: MovieRepository
@@ -24,7 +25,8 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         apiTheMovieDb = ApiConfig().apiTheMovie()
         movieRemoteDataSource = MovieRemoteDataSource(apiTheMovieDb)
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
     }
 
     private fun initView() {
-        movieRV.apply {
+        binding.movieRV.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = movieAdapter
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
          * We can also not use parameter on constructor getMovies(BuildConfig.API_KEY, "en-US")
          * Just set BuildConfig.API_KEY, "en-US" to constant ApiService (ApiTheMovieDb)
          */
-        loadingPB.visible()
+        binding.loadingPB.visible()
         presenter.getMovies(BuildConfig.API_KEY, "en-US")
     }
 
@@ -68,13 +70,13 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
          * When MoviePresenter get data from MovieRepository, MoviePresenter pass result data to setItemToView()
          */
 
-        loadingPB.gone()
+        binding.loadingPB.gone()
         movieAdapter.clearMovies()
         movieAdapter.setMovies(movies)
     }
 
     override fun setError(throwable: Throwable) {
-        loadingPB.gone()
+        binding.loadingPB.gone()
         loge(throwable.message.toString())
     }
 
