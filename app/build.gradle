@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
@@ -62,6 +64,14 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson_version"
 
     //Kotlin x coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    //Hilt Dependency Injection
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    //For Use Dependency on Activity and Fragment
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
 }
