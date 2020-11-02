@@ -6,20 +6,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stimednp.mvpthemoviedb.BuildConfig
 import com.stimednp.mvpthemoviedb.data.model.Movie
 import com.stimednp.mvpthemoviedb.databinding.ActivityMainBinding
-import com.stimednp.mvpthemoviedb.network.ApiConfig
-import com.stimednp.mvpthemoviedb.network.ApiTheMovieDb
-import com.stimednp.mvpthemoviedb.repository.MovieRemoteDataSource
 import com.stimednp.mvpthemoviedb.repository.MovieRepository
 import com.stimednp.mvpthemoviedb.util.gone
 import com.stimednp.mvpthemoviedb.util.loge
 import com.stimednp.mvpthemoviedb.util.visible
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MovieContract.View {
+    @Inject lateinit var repository: MovieRepository //only this and it's ready to be used, MAGIC!! :)
     private lateinit var binding: ActivityMainBinding
-
-    private lateinit var apiTheMovieDb: ApiTheMovieDb
-    private lateinit var movieRemoteDataSource: MovieRemoteDataSource
-    private lateinit var repository: MovieRepository
     private lateinit var presenter: MovieContract.Presenter
     private val movieAdapter: MovieAdapter by lazy { MovieAdapter() }
 
@@ -27,18 +24,6 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        apiTheMovieDb = ApiConfig().apiTheMovie()
-        movieRemoteDataSource = MovieRemoteDataSource(apiTheMovieDb)
-        repository = MovieRepository(movieRemoteDataSource)
-
-        /**
-         * Bad practice (Only for sample to understand why using DI)
-         * We'll change this using DI and how implement DI to this project (on branch : clean-code)
-         * What the impact if not using DI? boilerplate code, we'll always instantiation objects we need
-         * See my code above, we just need MovieRepository here, but needed more objects to complete args.
-         */
-
         MoviePresenter(this, repository)
         initView()
         initData()
@@ -59,6 +44,7 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
          * We can also not use parameter on constructor getMovies(BuildConfig.API_KEY, "en-US")
          * Just set BuildConfig.API_KEY, "en-US" to constant ApiService (ApiTheMovieDb)
          */
+
         binding.loadingPB.visible()
         presenter.getMovies(BuildConfig.API_KEY, "en-US")
     }
