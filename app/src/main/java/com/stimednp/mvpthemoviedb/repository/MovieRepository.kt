@@ -1,13 +1,14 @@
 package com.stimednp.mvpthemoviedb.repository
 
 import com.stimednp.mvpthemoviedb.data.model.Movie
+import javax.inject.Inject
 
 /**
  * Created by rivaldy on Oct/28/2020.
  * Find me on my lol Github :D -> https://github.com/im-o
  */
 
-class MovieRepository(
+class MovieRepository @Inject constructor(
     private val movieRemoteDataSource: MovieRemoteDataSource
 ) : MovieDataSource {
 

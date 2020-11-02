@@ -2,6 +2,7 @@ package com.stimednp.mvpthemoviedb.repository
 
 import com.stimednp.mvpthemoviedb.network.ApiTheMovieDb
 import com.stimednp.mvpthemoviedb.util.Coroutines
+import javax.inject.Inject
 
 /**
  * Created by rivaldy on Oct/29/2020.
@@ -12,7 +13,7 @@ import com.stimednp.mvpthemoviedb.util.Coroutines
  * Put all your code here, related to the internet/remote.
  */
 
-class MovieRemoteDataSource(
+class MovieRemoteDataSource @Inject constructor(
     private val apiTheMovieDb: ApiTheMovieDb
 ) : MovieDataSource {
 
